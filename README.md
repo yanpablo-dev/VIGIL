@@ -5,10 +5,10 @@ Cada computador roda o **VIGIL Agent**, que só faz conexões **de saída** (HTT
 nos computadores monitorados, e o agente **não** executa comandos nem oferece acesso remoto à tela.
 
 ```
- PC Windows ─┐                        ┌──────────────────────────────┐
+ PC Windows  ─┐                         ┌──────────────────────────────┐
  Servidor Linux ─┼── HTTPS (saída) ──▶ │ VIGIL Server (porta 8443)    │ ◀── Painel web (administradores)
- Filial (NAT) ─┘   token por agente   │ API agentes · alertas · SQLite│
-                                       └──────────────────────────────┘
+ Filial (NAT)─┘   token por agente      │API agentes · alertas · SQLite│
+                                        └──────────────────────────────┘
 ```
 
 ## Estrutura
