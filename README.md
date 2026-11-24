@@ -136,7 +136,7 @@ Cabeçalho `Authorization: Bearer vgl_…`. Resposta: `{interval, new_token?}` �
 
 ## Créditos
 
-Desenvolvido por Yan Pablo, com a ajuda de Guilherme.
+Desenvolvido por Yan Pablo e Guilherme Alfeu.
 
 ## Licença
 
