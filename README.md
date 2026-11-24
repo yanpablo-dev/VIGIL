@@ -11,6 +11,22 @@ nos computadores monitorados, e o agente **não** executa comandos nem oferece a
                                         └──────────────────────────────┘
 ```
 
+## Telas
+
+> Capturas de um ambiente de demonstração.
+
+**Dashboard** — visão geral, conexões, desconexões, alertas ativos e infraestrutura conectada
+
+![Dashboard do VIGIL](docs/dashboard.jpg)
+
+**Dispositivos** — filtros por status, sistema, grupo e localização
+
+![Lista de dispositivos](docs/dispositivos.jpg)
+
+**Detalhe do computador** — métricas atuais e histórico de CPU, RAM, disco e rede
+
+![Detalhe de um dispositivo](docs/detalhe.jpg)
+
 ## Estrutura
 
 | Pasta / arquivo | Conteúdo |
