@@ -1,0 +1,19 @@
+VIGIL Agent para Linux
+======================
+
+Requisitos: distribuição com systemd (Ubuntu, Debian, RHEL/Rocky/Alma, Fedora,
+openSUSE, Arch...), Python 3.8+ e acesso de SAÍDA ao servidor VIGIL (HTTPS).
+Nenhuma porta de entrada é aberta neste computador.
+
+INSTALAR (nesta pasta):
+
+  sudo bash install.sh --server https://SERVIDOR:8443 --token vgl_XXXX --fingerprint IMPRESSAO_DIGITAL
+
+O instalador cria o usuário de sistema "vigil-agent" (sem login), instala o
+agente em /opt/vigil-agent (ambiente Python isolado com psutil), grava
+/var/lib/vigil-agent/config.json (0600), testa a autenticação e habilita o
+serviço systemd "vigil-agent" (inicia com o sistema e reinicia em falha).
+
+STATUS:      systemctl status vigil-agent
+LOG:         journalctl -u vigil-agent -f
+DESINSTALAR: sudo bash /opt/vigil-agent/uninstall.sh   (--keep-config mantém o token)

@@ -1,0 +1,16 @@
+# Dados do servidor: banco, chave privada do certificado, tokens e logs. NUNCA publicar.
+server/data/
+
+# Python
+__pycache__/
+*.pyc
+
+# Executavel e artefatos do build do agente
+agent/windows/VIGIL-Agent.exe
+agent/windows/build/
+agent/windows/dist/
+*.spec
+
+# Configuracoes locais do agente
+config.json
+*.log

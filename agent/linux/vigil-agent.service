@@ -1,0 +1,29 @@
+# Referência. O install.sh gera este arquivo em /etc/systemd/system/vigil-agent.service
+# com os caminhos corretos (venv ou python3 do sistema).
+[Unit]
+Description=VIGIL Agent - monitoramento de infraestrutura
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=vigil-agent
+Group=vigil-agent
+ExecStart=/opt/vigil-agent/venv/bin/python /opt/vigil-agent/vigil_agent.py --config /var/lib/vigil-agent/config.json run
+Restart=always
+RestartSec=10
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=read-only
+PrivateTmp=yes
+ReadWritePaths=/var/lib/vigil-agent
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+RestrictSUIDSGID=yes
+RestrictRealtime=yes
+LockPersonality=yes
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX AF_NETLINK
+
+[Install]
+WantedBy=multi-user.target

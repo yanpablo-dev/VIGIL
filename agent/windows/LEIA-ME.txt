@@ -1,0 +1,25 @@
+VIGIL Agent para Windows
+========================
+
+Requisitos: Windows 10/11 ou Windows Server 2016+, PowerShell 5.1, acesso de
+SAIDA ao servidor VIGIL (HTTPS). Nenhuma porta de entrada e aberta neste computador.
+
+INSTALAR (PowerShell como Administrador, nesta pasta):
+
+  powershell -ExecutionPolicy Bypass -File .\install.ps1 -Server https://SERVIDOR:8443 -Token vgl_XXXX -Fingerprint IMPRESSAO_DIGITAL
+
+  * Server, Token e Fingerprint aparecem no painel em "Adicionar dispositivo".
+  * Sem Python? O instalador tenta instalar via winget. Alternativa: gere o
+    VIGIL-Agent.exe com build_exe.ps1 e deixe-o nesta pasta.
+
+O instalador:
+  1. instala psutil e pywin32;
+  2. copia o agente para C:\Program Files\VIGIL Agent;
+  3. grava C:\ProgramData\VIGIL Agent\config.json (acesso so de SYSTEM/Administradores);
+  4. testa a autenticacao com o servidor;
+  5. cria o Servico do Windows "VIGIL Agent" (inicio automatico, reinicio em falha).
+     Se o servico nao puder ser criado, usa uma Tarefa Agendada como SYSTEM.
+
+VERIFICAR:   Get-Service VIGILAgent
+LOG:         C:\ProgramData\VIGIL Agent\agent.log
+DESINSTALAR: powershell -ExecutionPolicy Bypass -File "C:\Program Files\VIGIL Agent\uninstall.ps1"
