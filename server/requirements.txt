@@ -1,0 +1,2 @@
+# Servidor central VIGIL (o restante usa apenas a biblioteca padrão do Python)
+cryptography>=41

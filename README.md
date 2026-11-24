@@ -25,7 +25,8 @@ nos computadores monitorados, e o agente **não** executa comandos nem oferece a
 
 ## 1. Instalar o servidor central
 
-Requisitos: Python 3.9+ e o pacote `cryptography` (só para gerar o certificado na 1ª vez).
+Requisitos: Python 3.9+ e o pacote `cryptography` (só para gerar o certificado na 1ª vez):
+`pip install -r server/requirements.txt`. O agente usa `agent/requirements.txt` (os instaladores já cuidam disso).
 
 1. Dê dois cliques em `iniciar_vigil.bat` (ou `python server\vigil_server.py`).
 2. Abra **neste computador** `https://localhost:8443` e crie o administrador (a configuração inicial só é aceita via localhost).
@@ -136,3 +137,7 @@ Cabeçalho `Authorization: Bearer vgl_…`. Resposta: `{interval, new_token?}` �
 ## Créditos
 
 Desenvolvido por Yan Pablo, com a ajuda de Guilherme.
+
+## Licença
+
+Distribuído sob a licença MIT. Veja o arquivo [LICENSE](LICENSE).
