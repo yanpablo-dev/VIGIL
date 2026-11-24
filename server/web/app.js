@@ -60,7 +60,7 @@ function dur(s) {
   const d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
   return d ? `${d}d ${h}h` : h ? `${h}h ${m}min` : `${m} min`;
 }
-const STATUS = { online: "Online", offline: "Offline", pending: "Aguardando agente", expired: "Cadastro expirado", revoked: "Revogado" };
+const STATUS = { online: "Online", offline: "Offline", pending: "Aguardando", expired: "Expirado", revoked: "Revogado" };
 const HEALTH = { ok: "Normal", attention: "Atenção", critical: "Crítico", unknown: "—" };
 const OSL = { windows: "Windows", linux: "Linux", macos: "macOS", other: "Outro", "": "—" };
 const EVK = {
@@ -78,6 +78,12 @@ function mbar(v, warn = 75, crit = 90) {
 }
 const osName = d => esc(d.os_name || d.os_declared || OSL[d.os_family] || "—");
 const ipOf = d => esc(d.ip_local || d.ip_declared || "—");
+// versao curta para tabelas: "Windows 10 Professional (build 19045)" -> "Windows 10"
+function osShort(d) {
+  const n = (d.os_name || d.os_declared || OSL[d.os_family] || "—").replace(/\s*\(.*\)$/, "");
+  const m = n.match(/^(Windows(?: Server)? \S+|Ubuntu \S+|Debian\S* \S+|[A-Za-z]+ Linux \S+)/);
+  return m ? m[1] : n.split(" ").slice(0, 3).join(" ");
+}
 
 /* ------------------------------------------------------------------ login / setup */
 async function boot() {
@@ -248,14 +254,14 @@ async function viewDevices() {
         <button class="btn sm" data-act="bulk-move">Mover para o grupo</button><button class="btn sm" data-act="bulk-clear">Limpar seleção</button></div>` : ""}
     </div>
     <div class="card tbl-wrap">${list.length ? `<table><thead><tr>${can("operator") ? `<th><input type="checkbox" id="sel-all"></th>` : ""}
-      <th>Computador</th><th>IP</th><th>Sistema</th><th>Status</th><th>Saúde</th><th>CPU</th><th>RAM</th><th>Disco</th><th>Rede ↓/↑</th><th>Última comunicação</th></tr></thead><tbody>
+      <th>Computador</th><th>IP</th><th>Sistema</th><th>Status</th><th>Saúde</th><th>CPU</th><th>RAM</th><th>Disco</th><th>Rede</th><th>Contato</th></tr></thead><tbody>
       ${list.map(d => `<tr class="click" data-open="${esc(d.id)}">
         ${can("operator") ? `<td><input type="checkbox" data-sel="${esc(d.id)}" ${S.selected.has(d.id) ? "checked" : ""}></td>` : ""}
         <td><div class="name">${esc(d.name)} ${d.open_alerts ? `<span class="badge">${d.open_alerts}</span>` : ""}</div><div class="sub">${esc(d.group_name)}${d.location ? " · " + esc(d.location) : ""}</div></td>
         <td class="mono">${ipOf(d)}${d.ip_remote && d.ip_remote !== d.ip_local ? `<div class="sub">via ${esc(d.ip_remote)}</div>` : ""}</td>
-        <td>${osName(d)}</td><td>${stBadge(d.status)}</td><td>${hl(d)}</td>
+        <td class="nw" title="${osName(d)}">${esc(osShort(d))}</td><td>${stBadge(d.status)}</td><td>${hl(d)}</td>
         <td>${d.status === "online" ? mbar(d.cpu) : "—"}</td><td>${d.status === "online" ? mbar(d.ram, 75, 85) : "—"}</td><td>${d.status === "online" ? mbar(d.disk, 80, 90) : "—"}</td>
-        <td class="sub">${d.status === "online" ? `${bps(d.net_rx)} / ${bps(d.net_tx)}` : "—"}</td>
+        <td class="sub nw">${d.status === "online" ? `↓ ${bps(d.net_rx)}<br>↑ ${bps(d.net_tx)}` : "—"}</td>
         <td class="sub" title="${esc(dt(d.last_seen))}">${ago(d.last_seen)}</td></tr>`).join("")}
       </tbody></table>` : (all.length ? `<div class="empty">Nenhum dispositivo com esses filtros.</div>` : emptyDevices())}</div>`;
   $("#f-q").addEventListener("input", debounce(e => { f.q = e.target.value; viewDevices().then(() => { const i = $("#f-q"); i.focus(); i.setSelectionRange(i.value.length, i.value.length); }); }, 250));
